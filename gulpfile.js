@@ -59,12 +59,12 @@ gulp.task('copy-assets', () => {
 
 gulp.task('watch', () => {
     gulp.watch('./app/src/index.html', gulp.parallel('copy-html'));
-    gulp.watch('./app/src/**/*.*', gulp.parallel('copy-html'));
+    gulp.watch('./app/src/**/*.js', gulp.parallel('build-js'));
     gulp.watch('./app/scss/**/*.scss', gulp.parallel('build-sass'));
     gulp.watch('./app/api/**/*.*', gulp.parallel('copy-api'));
     gulp.watch('./app/assets/**/*.*', gulp.parallel('copy-assets'));
 });
 
-gulp.task('build', gulp.parallel('copy-html', 'copy-html', 'build-sass', 'copy-api', 'copy-assets'));
+gulp.task('build', gulp.parallel('copy-html', 'build-js', 'build-sass', 'copy-api', 'copy-assets'));
 
 gulp.task('default', gulp.parallel('watch', 'build'));
