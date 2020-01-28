@@ -1,0 +1,39 @@
+{
+  "name": "adm_panel_react_php",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnaninAN/adm_panel_react_php.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "browserslist": [
+    "last 2 chrome versions",
+    "last 2 firefox versions",
+    "last 2 ios versions"
+  ],
+  "bugs": {
+    "url": "https://github.com/AnaninAN/adm_panel_react_php/issues"
+  },
+  "homepage": "https://github.com/AnaninAN/adm_panel_react_php#readme",
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "gulp-sass": "^4.0.2",
+    "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "gulp": "^4.0.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-stream": "^5.2.1"
+  }
+}
