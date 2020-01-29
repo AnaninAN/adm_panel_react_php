@@ -3,6 +3,8 @@ import '../../helpers/iframeLoader.js';
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import DOMHelper from '../../helpers/dom-helper';
+
 export default class Editor extends Component {
   constructor() {
     super();
@@ -30,13 +32,13 @@ export default class Editor extends Component {
 
     axios
       .get(`../${page}?rnd=${Math.random()}`)
-      .then(res => this.parseStrToDOM(res.data))
-      .then(this.wrapTextNodes)
+      .then(res => DOMHelper.parseStrToDOM(res.data))
+      .then(DOMHelper.wrapTextNodes)
       .then(dom => {
         this.virtualDom = dom;
         return dom;
       })
-      .then(this.serializeDOMToStr)
+      .then(DOMHelper.serializeDOMToStr)
       .then(html => axios.post('./api/saveTempPage.php', { html }))
       .then(() => this.iframe.load('../temp.html'))
       .then(() => this.enableEditing())
@@ -44,8 +46,8 @@ export default class Editor extends Component {
 
   save() {
     const newDom = this.virtualDom.cloneNode(this.virtualDom);
-    this.unwrapTextNodes(newDom);
-    const html = this.serializeDOMToStr(newDom);
+    DOMHelper.unwrapTextNodes(newDom);
+    const html = DOMHelper.serializeDOMToStr(newDom);
     axios
       .post('./api/savePage.php', { pageName: this.currentPage, html })
   }
@@ -62,48 +64,6 @@ export default class Editor extends Component {
   onTextEdit(element) {
     const id = element.getAttribute('nodeid');
     this.virtualDom.body.querySelector(`[nodeid="${id}"]`).innerHTML = element.innerHTML;
-  }
-
-  parseStrToDOM(str) {
-    const parser = new DOMParser();
-    return parser.parseFromString(str, 'text/html');
-  }
-
-  wrapTextNodes(dom) {
-    const body = dom.body;
-    let textNodes = [];
-
-    function recursy(element) {
-      element.childNodes.forEach(node => {
-        if (node.nodeName === "#text" && node.nodeValue.replace(/\s+/g, "").length > 0) {
-          textNodes.push(node);
-        } else {
-          recursy(node);
-        }
-      });
-    }
-
-    recursy(body);
-
-    textNodes.forEach((node, idx) => {
-      const wrapper = dom.createElement('text-editor');
-      node.parentNode.replaceChild(wrapper, node);
-      wrapper.appendChild(node);
-      wrapper.setAttribute('nodeid', idx)
-    });
-
-    return dom;
-  }
-
-  serializeDOMToStr(dom) {
-    const serializer = new XMLSerializer();
-    return serializer.serializeToString(dom);
-  }
-
-  unwrapTextNodes(dom) {
-    dom.body.querySelectorAll('text-editor').forEach(element => {
-      element.parentNode.replaceChild(element.firstChild, element);
-    });
   }
 
   loadPageList() {
