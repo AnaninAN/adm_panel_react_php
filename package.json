@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/AnaninAN/adm_panel_react_php#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "gulp-sass": "^4.0.2",
     "jquery": "^3.4.1"
